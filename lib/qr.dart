@@ -20,7 +20,7 @@ List<String> dropdownItems2 = ['1', '2', '3'];
 class _qrState extends State<qr> {
   String? _qrInfo = 'Scan a QR Code';
   bool camState = false;
-  Future knit() async {
+  Future knit1() async {
     print("==============================");
     // var url = Uri.http("10.0.1.197",'/f/knit.php', {'q': '{http}'});
     var url = Uri.http(BASE_URL, '/f/knit.php');
@@ -270,7 +270,7 @@ class _qrState extends State<qr> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              knit();
+                              knit1();
                             },
                             child: Container(
                               height: 53,
@@ -305,7 +305,7 @@ class _qrState extends State<qr> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              knit();
+                              knit1();
                             },
                             child: Container(
                               height: 53,

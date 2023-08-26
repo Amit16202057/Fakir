@@ -5,7 +5,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-
 // class Home extends StatefulWidget {
 //   const Home({super.key});
 
@@ -23,7 +22,7 @@
 // //       ..
 // // );
 //     return Scaffold(
-//       drawer: NavBar() 
+//       drawer: NavBar()
 //       appBar: AppBar(
 //         title: const Text(data),
 //       ),
@@ -351,7 +350,7 @@
 //   // }
 // }
 import 'package:flutter/material.dart';
-
+import 'package:project/view.dart';
 
 import 'knit.dart';
 
@@ -396,89 +395,110 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      drawer: Drawer(
-        child: _buildDrawer(),
-      ),
-      body: const Center(child: Text("Main Screen Contents...", style: TextStyle(fontSize: 30),),)
-    );
+        floatingActionButton: new FloatingActionButton(
+          child: new Icon(Icons.add),
+          onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
+            builder: (BuildContext context) => new Homei(),
+          )),
+        ),
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        drawer: Drawer(
+          child: _buildDrawer(),
+        ),
+        body: const Center(
+          child: Text(
+            "Main Screen Contents...",
+            style: TextStyle(fontSize: 30),
+          ),
+        ));
   }
 
-  Widget _buildDrawer(){
+  Widget _buildDrawer() {
     return ListView.separated(
       padding: const EdgeInsets.only(top: 0),
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        if(index ==0){
+        if (index == 0) {
           return _buildDrawerHeader(data[index]);
         }
-        return  _buildMenuList(data[index]);
+        return _buildMenuList(data[index]);
       },
-      separatorBuilder: (BuildContext context, int index) => const Divider( height: 1, thickness: 2,),
+      separatorBuilder: (BuildContext context, int index) => const Divider(
+        height: 1,
+        thickness: 2,
+      ),
     );
   }
 
-  Widget _buildDrawerHeader(Menu headItem){
+  Widget _buildDrawerHeader(Menu headItem) {
     return DrawerHeader(
-      margin: const EdgeInsets.only(bottom: 0),
-      decoration: const BoxDecoration(
-        color: Colors.deepOrange,
-      ),
+        margin: const EdgeInsets.only(bottom: 0),
+        decoration: const BoxDecoration(
+          color: Colors.deepOrange,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(headItem.icon, color: Colors.white, size: 60,),
-          const Spacer(),
-          Text(headItem.title, style: const TextStyle(color: Colors.white, fontSize: 20),),
-        ],
+          children: [
+            Icon(
+              headItem.icon,
+              color: Colors.white,
+              size: 60,
+            ),
+            const Spacer(),
+            Text(
+              headItem.title,
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
         ));
   }
+
   Widget _buildMenuList(Menu menuItem) {
     //build the expansion tile
     double lp = 0; //left padding
     double fontSize = 20;
-    if(menuItem.level == 1){lp =20; fontSize =16;}
-    if(menuItem.level == 2){lp =30; fontSize =14;}
-
-    if (menuItem.children.isEmpty) {
-      return Builder(
-          builder: (context) {
-
-            return
-              InkWell(
-                child:Padding(
-                  padding: EdgeInsets.only(left: lp),
-                  child: ListTile(
-                    leading: Icon(menuItem.icon),
-                    title: Text(
-                      menuItem.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ),
-                ),
-                onTap: (){
-                  // Close the drawer
-                  Navigator.pop(context);
-
-                  //Then direct user to dashboard page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => KNIT(),
-                    ),
-                  );
-
-
-                },
-              );
-          }
-      );
+    if (menuItem.level == 1) {
+      lp = 20;
+      fontSize = 16;
+    }
+    if (menuItem.level == 2) {
+      lp = 30;
+      fontSize = 14;
     }
 
+    if (menuItem.children.isEmpty) {
+      return Builder(builder: (context) {
+        return InkWell(
+          child: Padding(
+            padding: EdgeInsets.only(left: lp),
+            child: ListTile(
+              leading: Icon(menuItem.icon),
+              title: Text(
+                menuItem.title,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ),
+          ),
+          onTap: () {
+            // Close the drawer
+            Navigator.pop(context);
 
-    return  Padding(
+            //Then direct user to dashboard page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => KNIT(),
+              ),
+            );
+          },
+        );
+      });
+    }
+
+    return Padding(
       padding: EdgeInsets.only(left: lp),
       child: ExpansionTile(
         leading: Icon(menuItem.icon),
@@ -489,16 +509,14 @@ class _MyHomePageState extends State<MyHomePage> {
         children: menuItem.children.map(_buildMenuList).toList(),
       ),
     );
-
   }
 }
 
-
 //The Menu Model
 class Menu {
-  int level =0;
+  int level = 0;
   IconData icon = Icons.drive_file_rename_outline;
-  String title ="";
+  String title = "";
   List<Menu> children = [];
   //default constructor
   Menu(this.level, this.icon, this.title, this.children);
@@ -506,9 +524,13 @@ class Menu {
   //one method for  Json data
   Menu.fromJson(Map<String, dynamic> json) {
     //level
-    if(json["level"] != null){level = json["level"];}
+    if (json["level"] != null) {
+      level = json["level"];
+    }
     //icon
-    if(json["icon"] != null){icon = json["icon"];}
+    if (json["icon"] != null) {
+      icon = json["icon"];
+    }
     //title
     title = json['title'];
     //children
@@ -521,7 +543,6 @@ class Menu {
     }
   }
 }
-
 
 //menu data list
 List dataList = [
@@ -538,18 +559,12 @@ List dataList = [
     "icon": Icons.verified_outlined,
     "title": "Hourly Garments Production",
     "children": [
-     
       {
-        "level":1,
+        "level": 1,
         "icon": Icons.lock,
         "title": "1",
-        "children":[
-        
-          
-
-        ],
+        "children": [],
       },
-
     ]
   },
   {
@@ -557,40 +572,24 @@ List dataList = [
     "icon": Icons.verified_outlined,
     "title": "Knitting Quality",
     "children": [
-     
       {
-        "level":1,
+        "level": 1,
         "icon": Icons.lock,
         "title": "1",
-        "children":[
-        
-          
-
-        ],
+        "children": [],
       },
-
     ]
   },
 
+  //menu data item
 
   //menu data item
-  
 
   //menu data item
-  
+
   //menu data item
-  
-  //menu data item
-  {
-    "level": 0,
-    "icon": Icons.favorite,
-    "title": "Favorite",
-    "children": [
-      
-    ]
-  },
+  {"level": 0, "icon": Icons.favorite, "title": "Favorite", "children": []},
 ];
-
 
 // class Dashboard extends StatelessWidget{
 //   const Dashboard(this.menuItem, {Key? key}) : super(key: key);
@@ -618,10 +617,6 @@ List dataList = [
 
 // }
 
-
-
-
-
 class KNIT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -634,5 +629,3 @@ class KNIT extends StatelessWidget {
     );
   }
 }
-
-                                                                                                                                                                                                                   

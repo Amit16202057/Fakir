@@ -5,6 +5,7 @@ import 'package:project/config/endpoints.dart';
 import 'package:project/register.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+import 'package:project/view.dart';
 // import 'DashBoard.dart';
 import 'home.dart';
 
@@ -85,8 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
           width: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.teal.shade200, Colors.purple.shade900])),
+              gradient: LinearGradient(colors: [
+            Colors.teal.shade200,
+            const Color.fromARGB(255, 99, 77, 126)
+          ])),
           child: SingleChildScrollView(
             child: Column(
               children: [
